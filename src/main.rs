@@ -4,11 +4,11 @@ fn main() {
     println!("Hello, world!");
 
     //Varables
-    let mut cells: [u8;9] = [0,0,0,0,0,0,0,0,0];
-    let mut player: u8 = 1;
-    let mut victor: u8 = 0;
+    let mut cells: [char; 9] = ['0','1','2','3','4','5','6','7','8'];
+    let mut player: char = 'O';
+    let mut victor: char = 'N';
 
-    while victor == 0 {
+    while victor == 'N' {
         print_board(&cells);
         println!("Enter the number of the cell you wish to mark:");
 
@@ -23,37 +23,35 @@ fn main() {
         change_cell(&mut cells, cell, player);
         print_board(&cells);
         victor = check_victory(cells);
-        if player == 1 {
-            player = 2;
+        if player == 'O' {
+            player = 'X';
         } else {
-            player = 1;
+            player = 'O';
         }
     }
     println!("Player {} wins!", victor);
 }
 
-fn print_board(cells: &[u8; 9]) {
+fn print_board(cells: &[char; 9]) {
     println!("{}, {}, {}\n{}, {}, {}\n{}, {}, {}\n\n\n",
              cells[0], cells[1], cells[2],
              cells[3], cells[4], cells[5],
              cells[6], cells[7], cells[8]);
 }
 
-fn change_cell(cells: &mut [u8; 9], cell: usize, player: u8) -> u8 {
+fn change_cell(cells: &mut [char; 9], cell: usize, player: char) {
     if cell < 9 {
-        if cells[cell] == 0 {
+        if cells[cell] != 'O' && cells[cell] != 'X' {
             cells[cell] = player;
-            player
         } else {
-            10
+            println!("That cell is already taken!");
         }
     } else {
         println!("That's not a valid move! You lose your turn.");
-        10
     }
 }
 
-fn check_victory(cells: [u8; 9]) -> u8 {
+fn check_victory(cells: [char; 9]) -> char {
     if cells[0] == cells[1] && cells[1] == cells[2] {
         cells[0]
     } else if cells[0] == cells[4] && cells[4] == cells[8] {
@@ -71,6 +69,6 @@ fn check_victory(cells: [u8; 9]) -> u8 {
     } else if cells[6] == cells[7] && cells[7] == cells[8] {
         cells[8]
     } else {
-        0
+        'N'
     }
 }
