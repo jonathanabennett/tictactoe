@@ -1,4 +1,5 @@
 use std::io;
+use std::fmt;
 
 #[derive(PartialEq)]
 enum CellType {
@@ -7,12 +8,12 @@ enum CellType {
     Empty,
 }
 
-impl CellType {
-    fn output(self, pos:u8) {
+impl fmt::Display for CellType {
+    fn fmt(&self, f: &mut fmt::Formatter, pos: u8) -> fmt::Result {
         match self {
-            CellType::Player1 => 'X',
-            CellType::Player2 => 'O',
-            CellType::Empty =>  pos.to_char()
+            CellType::Player1 => write!(f, "X"),
+            CellType::Player2 => write!(f, "O"),
+            CellType::Empty   => write!(f, pos),
         }
     }
 }
@@ -57,9 +58,10 @@ fn print_board(cells: &[CellType; 9]) {
     for cell in cells {
 
     println!("{}, {}, {}\n{}, {}, {}\n{}, {}, {}\n\n\n",
-             cells[0].output(0), cells[1].output(1), cells[2].output(2),
-             cells[3].output(3), cells[4].output(4), cells[5].output(5),
-             cells[6].output(6), cells[7].output(7), cells[8].output(7));
+             cells[0], cells[1], cells[2],
+             cells[3], cells[4], cells[5],
+             cells[6], cells[7], cells[8]);
+    }
 }
 
 fn change_cell(cells: &mut [CellType; 9], player: CellType) {
