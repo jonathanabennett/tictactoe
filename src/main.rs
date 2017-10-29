@@ -19,8 +19,6 @@ impl fmt::Display for CellType {
 }
 
 fn main() {
-    println!("Hello, world!");
-
     //Varables
     let mut cells: [CellType; 9] = [CellType::Empty(0), CellType::Empty(1), CellType::Empty(2),
     CellType::Empty(3), CellType::Empty(4), CellType::Empty(5),
@@ -28,7 +26,7 @@ fn main() {
     let mut player = CellType::Player1;
     let mut victor = CellType::Empty(99);
 
-    while victor == CellType::Empty {
+    while let CellType::Empty(_) = victor {
         print_board(&cells);
 
         change_cell(&mut cells, player);
@@ -70,7 +68,7 @@ fn change_cell(cells: &mut [CellType; 9], player: CellType) {
             .expect("Please enter a number from 0-8.");
 
         if cell < 9 {
-            if cells[cell] == CellType::Empty {
+            if let CellType::Empty(_) = cells[cell] {
                 cells[cell] = player;
                 exit = 1;
             } else {
