@@ -5,15 +5,15 @@ use std::fmt;
 enum CellType {
     Player1,
     Player2,
-    Empty,
+    Empty(i32),
 }
 
 impl fmt::Display for CellType {
-    fn fmt(&self, f: &mut fmt::Formatter, pos: u8) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            CellType::Player1 => write!(f, "X"),
-            CellType::Player2 => write!(f, "O"),
-            CellType::Empty   => write!(f, pos),
+            &CellType::Player1 => write!(f, "X"),
+            &CellType::Player2 => write!(f, "O"),
+            &CellType::Empty(pos)   => write!(f,"{}", pos),
         }
     }
 }
@@ -22,23 +22,14 @@ fn main() {
     println!("Hello, world!");
 
     //Varables
-    let mut cells: [CellType; 9] = [CellType::Empty, CellType::Empty, CellType::Empty,
-    CellType::Empty, CellType::Empty, CellType::Empty,
-    CellType::Empty, CellType::Empty, CellType::Empty];
+    let mut cells: [CellType; 9] = [CellType::Empty(0), CellType::Empty(1), CellType::Empty(2),
+    CellType::Empty(3), CellType::Empty(4), CellType::Empty(5),
+    CellType::Empty(6), CellType::Empty(7), CellType::Empty(8)];
     let mut player = CellType::Player1;
-    let mut victor = CellType::Empty;
+    let mut victor = CellType::Empty(99);
 
     while victor == CellType::Empty {
         print_board(&cells);
-        println!("Enter the number of the cell you wish to mark:");
-
-        let mut cell = String::new();
-
-        io::stdin().read_line(&mut cell)
-            .expect("Please enter a number from 0-8.");
-
-        let cell: usize = cell.trim().parse()
-            .expect("Please enter a number from 0-8.");
 
         change_cell(&mut cells, player);
 
@@ -109,6 +100,6 @@ fn check_victory(cells: [CellType; 9]) -> CellType {
     } else if cells[6] == cells[7] && cells[7] == cells[8] {
         cells[8]
     } else {
-       CellType::Empty
+       CellType::Empty(99)
     }
 }
