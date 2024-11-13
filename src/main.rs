@@ -19,7 +19,7 @@ impl fmt::Display for CellType {
 }
 
 fn main() {
-    //Varables
+    //Variables
     let mut cells: [CellType; 9] = [CellType::Empty(0), CellType::Empty(1), CellType::Empty(2),
     CellType::Empty(3), CellType::Empty(4), CellType::Empty(5),
     CellType::Empty(6), CellType::Empty(7), CellType::Empty(8)];
